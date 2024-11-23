@@ -1,0 +1,39 @@
+.table {
+  width: 100%;
+  margin-top: 10px;
+  min-width: 600px;
+  overflow-x: auto;
+}
+
+.tableHeader {
+  width: 100%;
+  height: 60px;
+  background-color: #1c172b;
+  padding-left: 8%;
+  padding-right: 8%;
+  button {
+    flex: 1;
+  }
+  button:nth-child(3) {
+    flex: 2;
+    display: flex;
+  }
+}
+
+.tableRow {
+  width: 100%;
+  height: 52px;
+  clip-path: polygon(50% 0%, 100% 0, 100% 50%, 95% 100%, 0 100%, 0 50%, 5% 0);
+  background-color: #251e40;
+  padding-left: 8%;
+  padding-right: 8%;
+  &:hover {
+    background-color: #2c2250;
+  }
+  div {
+    flex: 1;
+  }
+  div:nth-child(3) {
+    flex: 2;
+  }
+}

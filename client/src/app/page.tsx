@@ -1,9 +1,12 @@
-import styles from "./page.module.css";
+import Link from "next/link";
+import { Box, Text } from "@/components";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}></main>
-    </div>
+    <Box fd="column">
+      <Link href="/leaderboard">
+        <Text>go to leaderboard</Text>
+      </Link>
+    </Box>
   );
 }
