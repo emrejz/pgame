@@ -1,5 +1,5 @@
-import { Box, Heading, Text } from "@/components";
 import Link from "next/link";
+import { Box, Heading, Text } from "@/components/commons";
 
 export default function NotFound() {
   return (

@@ -1,4 +1,4 @@
-import { SearchSvg } from "../svgs";
+import { SearchSvg } from "@/components/svgs";
 import styles from "./index.module.scss";
 
 interface InputProps {

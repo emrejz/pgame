@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Box, Text } from "@/components";
+import { Box, Text } from "@/components/commons";
 
 export default function Home() {
   return (

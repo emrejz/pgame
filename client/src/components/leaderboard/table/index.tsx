@@ -1,5 +1,5 @@
 import { Player } from "@/types/player";
-import { Box, Button, Text } from "@/components";
+import { Box, Button, Text } from "@/components/commons";
 import { SortingSvg } from "@/components/svgs";
 import styles from "./index.module.scss";
 
