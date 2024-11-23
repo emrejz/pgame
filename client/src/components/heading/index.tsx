@@ -1,4 +1,4 @@
-import styles from "./index.module.css";
+import styles from "./index.module.scss";
 
 interface HeadingProps {
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";

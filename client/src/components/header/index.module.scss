@@ -5,5 +5,7 @@
   align-items: center;
   justify-content: center;
   background-color: #1c172b;
-  position: static;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
