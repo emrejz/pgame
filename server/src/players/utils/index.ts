@@ -1,7 +1,5 @@
-import { PlayerWithMoneyDto } from '../dto/player.dto';
-
 const percentages = [0.2, 0.15, 0.1];
-const moneyPrize = 1000;
+const moneyPrize = 100;
 
 export function calculateRewards(rank: number): number {
   if (rank >= 100) return 0;
@@ -15,14 +13,6 @@ export function calculateRewards(rank: number): number {
     const percentage =
       (0.55 * ((remainingPlayer - (rank - 3)) / remainingPlayer)) /
       avarageTotalRank;
-    return moneyPrize * Number(percentage.toFixed(3));
+    return Number((moneyPrize * percentage).toFixed(2));
   }
 }
-
-export const sortPlayersByCountryAndRank = (players: PlayerWithMoneyDto[]) => {
-  return [...players].sort((a, b) => {
-    if (a.countrycode < b.countrycode) return -1;
-    if (a.countrycode > b.countrycode) return 1;
-    return a.rank - b.rank;
-  });
-};

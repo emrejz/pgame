@@ -16,6 +16,6 @@ export class Player {
   })
   countrycode: CountryCode;
 
-  @Column('int', { unique: true })
-  rank: number;
+  @Column('int')
+  score: number;
 }

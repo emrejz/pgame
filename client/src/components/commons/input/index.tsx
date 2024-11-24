@@ -33,7 +33,7 @@ const Input: React.FC<InputProps> = ({
           className={styles.completeBox}
         >
           {data?.map((text) => (
-            <Button>
+            <Button key={text}>
               <Text>{text}</Text>
             </Button>
           ))}

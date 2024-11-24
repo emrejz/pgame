@@ -4,15 +4,14 @@ import { Between, ILike, Repository } from 'typeorm';
 import { Player } from './entities/player.entity';
 import {
   GetPlayersDto,
-  GetPlayersFromRediDto,
   GetPlayersByRankNeighborsDto,
 } from './dto/get-players.dto';
 import { RedisService } from 'src/redis/redis.service';
 import {
-  REDIS_FIRST_100_PLAYERS_BY_COUNTRY_KEY,
+  REDIS_ALL_PLAYERS_KEY,
   REDIS_FIRST_100_PLAYERS_KEY,
 } from 'src/constants';
-import { calculateRewards, sortPlayersByCountryAndRank } from './utils/index';
+import { calculateRewards } from './utils/index';
 
 @Injectable()
 export class PlayersService {
@@ -23,37 +22,30 @@ export class PlayersService {
   ) {}
 
   async savePlayersToRedisByCron() {
-    const players = await this.findPlayers({
-      page: 1,
-      limit: 100,
+    const players = await this.playerRepository.find({
+      order: {
+        score: 'ASC',
+      },
     });
     if (players.length === 0) {
       return;
     }
 
-    const playerData = players.map((player) => {
+    const playerData = players.map((player, index) => {
       return {
         ...player,
-        money: calculateRewards(player.rank - 1),
+        money: calculateRewards(index),
+        rank: index + 1,
       };
     });
-
-    await this.redisService.set(REDIS_FIRST_100_PLAYERS_KEY, playerData);
     await this.redisService.set(
-      REDIS_FIRST_100_PLAYERS_BY_COUNTRY_KEY,
-      sortPlayersByCountryAndRank(playerData),
+      REDIS_FIRST_100_PLAYERS_KEY,
+      playerData.slice(0, 100),
     );
+    await this.redisService.set(REDIS_ALL_PLAYERS_KEY, playerData);
   }
 
-  async findPlayersFromRedis(
-    getPlayersFromRediDto: GetPlayersFromRediDto,
-  ): Promise<Player[]> {
-    const { byCountry } = getPlayersFromRediDto;
-    if (byCountry) {
-      return await this.redisService.get(
-        REDIS_FIRST_100_PLAYERS_BY_COUNTRY_KEY,
-      );
-    }
+  async findPlayersFromRedis(): Promise<Player[]> {
     return await this.redisService.get(REDIS_FIRST_100_PLAYERS_KEY);
   }
 
@@ -69,7 +61,6 @@ export class PlayersService {
       skip,
       take,
       order: {
-        rank: 'DESC',
         [sortBy]: order,
       },
     });
@@ -81,18 +72,18 @@ export class PlayersService {
     getPlayersByRankNeighborsDto: GetPlayersByRankNeighborsDto,
   ): Promise<Player[]> {
     const { id } = getPlayersByRankNeighborsDto;
-    const player = await this.playerRepository.findOne({ where: { id } });
+    let index;
+    const players = await this.redisService.get<Player[]>(
+      REDIS_ALL_PLAYERS_KEY,
+    );
+    const player = players?.find((player, i) => {
+      index = i;
+      return player.id === id;
+    });
+
     if (!player) {
       throw new Error('Player not found');
     }
-
-    return await this.playerRepository.find({
-      where: {
-        rank: Between(player.rank - 1, player.rank + 2),
-      },
-      order: {
-        rank: 'ASC',
-      },
-    });
+    return players.slice(Math.max(index - 1, 0), index + 3);
   }
 }

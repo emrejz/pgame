@@ -2,7 +2,6 @@ import { Controller, Get, Body } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import {
   GetPlayersDto,
-  GetPlayersFromRediDto,
   GetPlayersByRankNeighborsDto,
 } from './dto/get-players.dto';
 import { PlayerDto } from './dto/player.dto';
@@ -17,12 +16,8 @@ export class PlayersController {
   }
 
   @Get('from-redis')
-  async getPlayersFromRedis(
-    @Body() getPlayersFromRediDto: GetPlayersFromRediDto,
-  ): Promise<PlayerDto[]> {
-    return await this.playersService.findPlayersFromRedis(
-      getPlayersFromRediDto,
-    );
+  async getPlayersFromRedis(): Promise<PlayerDto[]> {
+    return await this.playersService.findPlayersFromRedis();
   }
 
   @Get('rank-neighbors')
