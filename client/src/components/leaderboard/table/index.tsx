@@ -47,7 +47,7 @@ const Table: React.FC<TableProps> = ({
       {Array.isArray(players)
         ? players?.map(({ id, rank, username, countrycode, money }) => {
             return (
-              <Box gap="10px" key={id} className={styles.tableRow}>
+              <Box gap="10px" key={id} id={id} className={styles.tableRow}>
                 <Text>{rank}</Text>
                 <Text>{username}</Text>
                 <Box>
@@ -87,7 +87,11 @@ const Table: React.FC<TableProps> = ({
                 </Box>
               </Box>
               {players?.map(({ id, rank, username, money }) => (
-                <Box gap="10px" key={id} className={styles.tableRow}>
+                <Box
+                  gap="10px"
+                  key={id}
+                  className={`${styles.tableRow} ${styles.tableSubRow}`}
+                >
                   <Text>{rank}</Text>
                   <Text>{username}</Text>
                   <div></div>

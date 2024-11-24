@@ -24,6 +24,7 @@ interface BoxProps {
     | "space-evenly";
   gap?: string;
   style?: React.CSSProperties;
+  id?: string;
 }
 
 const Text: React.FC<BoxProps> = ({
@@ -33,6 +34,7 @@ const Text: React.FC<BoxProps> = ({
   gap,
   style,
   children,
+  id,
   className,
   ...props
 }) => {
@@ -45,7 +47,12 @@ const Text: React.FC<BoxProps> = ({
     ...style,
   };
   return (
-    <div style={boxStyle} className={`${styles.box} ${className}`} {...props}>
+    <div
+      id={id}
+      style={boxStyle}
+      className={`${styles.box} ${className}`}
+      {...props}
+    >
       {children}
     </div>
   );

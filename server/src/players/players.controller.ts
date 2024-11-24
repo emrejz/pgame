@@ -1,9 +1,6 @@
-import { Controller, Get, Body } from '@nestjs/common';
+import { Controller, Get, Body, Param } from '@nestjs/common';
 import { PlayersService } from './players.service';
-import {
-  GetPlayersDto,
-  GetPlayersByRankNeighborsDto,
-} from './dto/get-players.dto';
+import { GetPlayersDto } from './dto/get-players.dto';
 import { PlayerDto } from './dto/player.dto';
 
 @Controller('players')
@@ -15,17 +12,20 @@ export class PlayersController {
     return await this.playersService.findPlayers(getPlayersDto);
   }
 
-  @Get('from-redis')
-  async getPlayersFromRedis(): Promise<PlayerDto[]> {
-    return await this.playersService.findPlayersFromRedis();
+  @Get('top')
+  async getTopPlayersFromRedis(): Promise<PlayerDto[]> {
+    return await this.playersService.findTopPlayersFromRedis();
   }
 
-  @Get('rank-neighbors')
-  async getPlayersByRankNeighbors(
-    @Body() getPlayersByRankNeighborsDto: GetPlayersByRankNeighborsDto,
+  @Get('search/:username')
+  async getPlayerFromRedis(
+    @Param('username') username: string,
   ): Promise<PlayerDto[]> {
-    return await this.playersService.findRankNeighbors(
-      getPlayersByRankNeighborsDto,
-    );
+    return await this.playersService.findPlayerFromRedis(username);
+  }
+
+  @Get('neighbors/:id')
+  async getPlayerAndNeighbors(@Param('id') id: string): Promise<PlayerDto[]> {
+    return await this.playersService.findPlayerAndNeighbors(id);
   }
 }

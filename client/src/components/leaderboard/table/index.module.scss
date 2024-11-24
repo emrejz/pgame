@@ -1,28 +1,39 @@
 .table {
   width: 100%;
   margin-top: 10px;
-  min-width: 600px;
   overflow-x: auto;
 }
 
 .tableHeader {
   width: 100%;
-  height: 60px;
+  height: 70px;
   background-color: #1c172b;
   padding-left: 8%;
   padding-right: 8%;
-  button {
+  svg {
+    min-width: 30px;
+    min-height: 30px;
+  }
+  button:nth-child(1) {
     flex: 1;
   }
-  button:nth-child(3) {
+  button:nth-child(2) {
     flex: 2;
+    display: flex;
+  }
+  button:nth-child(3) {
+    flex: 3;
+    display: flex;
+  }
+  button:nth-child(4) {
+    flex: 1;
     display: flex;
   }
 }
 
 .tableRow {
   width: 100%;
-  height: 52px;
+  height: 60px;
   clip-path: polygon(50% 0%, 100% 0, 100% 50%, 95% 100%, 0 100%, 0 50%, 5% 0);
   background-color: #251e40;
   padding-left: 8%;
@@ -30,11 +41,17 @@
   &:hover {
     background-color: #2c2250;
   }
-  div {
+  div:nth-child(1) {
     flex: 1;
   }
-  div:nth-child(3) {
+  div:nth-child(2) {
     flex: 2;
+  }
+  div:nth-child(3) {
+    flex: 3;
+  }
+  div:nth-child(4) {
+    flex: 1;
   }
 }
 .tableRowCountry {
@@ -50,4 +67,21 @@
 
 .tableRowGroupContainer {
   width: 100%;
+  .tableSubRow {
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .tableHeader {
+    button:nth-child(3) {
+      display: none;
+    }
+  }
+  .tableRow {
+    div:nth-child(3) {
+      display: none !important;
+      background-color: red;
+    }
+  }
 }

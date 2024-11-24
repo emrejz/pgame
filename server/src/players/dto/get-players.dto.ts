@@ -4,8 +4,6 @@ import {
   IsInt,
   IsEnum,
   IsPositive,
-  IsUUID,
-  IsNotEmpty,
 } from 'class-validator';
 
 export class GetPlayersDto {
@@ -25,15 +23,9 @@ export class GetPlayersDto {
 
   @IsOptional()
   @IsEnum(['ASC', 'DESC'])
-  order?: 'ASC' | 'DESC' = 'ASC';
+  order?: 'ASC' | 'DESC' = 'DESC';
 
   @IsOptional()
   @IsString()
   search?: string = '';
-}
-
-export class GetPlayersByRankNeighborsDto {
-  @IsUUID()
-  @IsNotEmpty()
-  id: string;
 }

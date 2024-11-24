@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/layouts";
-import "./globals.css";
+import "./globals.scss";
 
 export const metadata: Metadata = {
   title: "pgame",

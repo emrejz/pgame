@@ -1,11 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, ILike, Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { Player } from './entities/player.entity';
-import {
-  GetPlayersDto,
-  GetPlayersByRankNeighborsDto,
-} from './dto/get-players.dto';
+import { GetPlayersDto } from './dto/get-players.dto';
 import { RedisService } from 'src/redis/redis.service';
 import {
   REDIS_ALL_PLAYERS_KEY,
@@ -17,20 +14,19 @@ import { calculateRewards } from './utils/index';
 export class PlayersService {
   constructor(
     @InjectRepository(Player)
-    private playerRepository: Repository<Player>,
+    private readonly playerRepository: Repository<Player>,
     private readonly redisService: RedisService,
   ) {}
 
   async savePlayersToRedisByCron() {
     const players = await this.playerRepository.find({
       order: {
-        score: 'ASC',
+        score: 'DESC',
       },
     });
     if (players.length === 0) {
       return;
     }
-
     const playerData = players.map((player, index) => {
       return {
         ...player,
@@ -45,8 +41,17 @@ export class PlayersService {
     await this.redisService.set(REDIS_ALL_PLAYERS_KEY, playerData);
   }
 
-  async findPlayersFromRedis(): Promise<Player[]> {
+  async findTopPlayersFromRedis(): Promise<Player[]> {
     return await this.redisService.get(REDIS_FIRST_100_PLAYERS_KEY);
+  }
+
+  async findPlayerFromRedis(username: string): Promise<Player[]> {
+    const players: Player[] = await this.redisService.get(
+      REDIS_ALL_PLAYERS_KEY,
+    );
+    return players.filter((player) =>
+      player.username.toLowerCase().includes(username.toLowerCase()),
+    );
   }
 
   async findPlayers(getPlayersDto: GetPlayersDto): Promise<Player[]> {
@@ -68,10 +73,7 @@ export class PlayersService {
     return Players;
   }
 
-  async findRankNeighbors(
-    getPlayersByRankNeighborsDto: GetPlayersByRankNeighborsDto,
-  ): Promise<Player[]> {
-    const { id } = getPlayersByRankNeighborsDto;
+  async findPlayerAndNeighbors(id: string): Promise<Player[]> {
     let index;
     const players = await this.redisService.get<Player[]>(
       REDIS_ALL_PLAYERS_KEY,

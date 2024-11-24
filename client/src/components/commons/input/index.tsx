@@ -1,39 +1,60 @@
+"use client";
+
+import { useState } from "react";
 import { SearchSvg } from "@/components/svgs";
-import styles from "./index.module.scss";
 import { Box, Button, Text } from "..";
+import styles from "./index.module.scss";
 
 interface InputProps {
   className?: string;
   placeholder?: string;
-  data?: string[];
+  inputSearchOptions?: { text: string; id: string }[];
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  getSearchedPersonAndNeighbors: (id: string) => void;
 }
 
 const Input: React.FC<InputProps> = ({
   className,
   placeholder,
-  data,
+  inputSearchOptions,
   onChange,
+  getSearchedPersonAndNeighbors,
   ...props
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => {
+    setTimeout(() => {
+      setIsFocused(false);
+    }, 200);
+  };
+
   return (
     <div className={styles.inputContainer}>
       <input
-        placeholder={placeholder || ""}
+        placeholder={placeholder ?? ""}
         className={`${styles.input} ${className}`}
         onChange={onChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         {...props}
       />
       <SearchSvg />
-      {data?.length && (
+      {!!inputSearchOptions?.length && isFocused && (
         <Box
           fd="column"
           ai="flex-start"
           gap="10px"
           className={styles.completeBox}
         >
-          {data?.map((text) => (
-            <Button key={text}>
+          {inputSearchOptions?.map(({ text, id }) => (
+            <Button
+              key={text}
+              onClick={() => {
+                getSearchedPersonAndNeighbors(id);
+              }}
+            >
               <Text>{text}</Text>
             </Button>
           ))}
