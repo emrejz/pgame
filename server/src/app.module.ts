@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { PlayersModule } from './players/players.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Player } from './players/entities/player.entity';
+import { SchedulerModule } from './scheduler/scheduler.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { Player } from './players/entities/player.entity';
       entities: [Player],
       synchronize: false,
     }),
+    RedisModule,
+    SchedulerModule,
     PlayersModule,
   ],
   controllers: [],

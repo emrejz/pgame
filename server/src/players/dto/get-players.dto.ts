@@ -4,6 +4,9 @@ import {
   IsInt,
   IsEnum,
   IsPositive,
+  IsBoolean,
+  IsUUID,
+  IsNotEmpty,
 } from 'class-validator';
 
 export class GetPlayersDto {
@@ -28,4 +31,16 @@ export class GetPlayersDto {
   @IsOptional()
   @IsString()
   search?: string = '';
+}
+
+export class GetPlayersFromRediDto {
+  @IsOptional()
+  @IsBoolean()
+  byCountry?: boolean = false;
+}
+
+export class GetPlayersByRankNeighborsDto {
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
 }
