@@ -7,16 +7,13 @@ import { Player } from "@/types/player";
 import styles from "./index.module.scss";
 
 const LeaderboardContainer: React.FC = () => {
+  const [searchInput, setSearchInput] = useState("");
   const [data, setData] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
-
   useEffect(() => {
     const controller = new AbortController();
-    setAbortController(controller);
 
     const fetchData = async () => {
       try {
@@ -42,10 +39,14 @@ const LeaderboardContainer: React.FC = () => {
     };
   }, []);
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(event.target.value);
+  };
+
   return (
     <Box fd="column" gap="10px">
       <Heading className={styles.title}>Leaderboard</Heading>
-      <Input placeholder="Search" />
+      <Input onChange={handleChange} placeholder="Search" />
       <Table loading={loading} players={data} />
     </Box>
   );

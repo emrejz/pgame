@@ -1,6 +1,8 @@
+import { CountryCode } from 'src/commons/enums/country-code.enum';
+
 export class PlayerResponseDto {
-  id: number;
+  id: string;
   username: string;
-  country: string;
+  countrycode: CountryCode;
   rank: number;
 }

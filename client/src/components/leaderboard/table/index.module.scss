@@ -37,3 +37,10 @@
     flex: 2;
   }
 }
+
+.countryImage {
+  border-radius: 50%;
+  overflow: hidden;
+  object-fit: cover;
+  margin-right: 10px;
+}

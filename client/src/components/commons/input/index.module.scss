@@ -1,7 +1,6 @@
 .inputContainer {
   position: relative;
   width: 100%;
-  overflow: hidden;
   .input {
     all: unset;
     width: 100%;
@@ -28,5 +27,24 @@
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
+  }
+}
+.completeBox {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: #aaa8e8;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 90;
+  height: 200px;
+  overflow: scroll;
+  button {
+    width: 100%;
+    border: 1px solid white;
+    border-radius: 8px;
+    background-color: #4a5782;
   }
 }

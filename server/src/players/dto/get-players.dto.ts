@@ -23,7 +23,7 @@ export class GetPlayersDto {
 
   @IsOptional()
   @IsEnum(['ASC', 'DESC'])
-  order?: 'ASC' | 'DESC' = 'DESC';
+  order?: 'ASC' | 'DESC' = 'ASC';
 
   @IsOptional()
   @IsString()
