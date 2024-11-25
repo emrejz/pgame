@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const response = await fetch("http://localhost:3001/players/top", {
+    const response = await fetch(process.env.BE_URL + "/players/top", {
       method: "GET",
     });
     const data = await response.json();

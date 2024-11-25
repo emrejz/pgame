@@ -5,7 +5,7 @@ export async function GET(req) {
     const url = new URL(req.url);
     const id = url.searchParams.get("id");
     const response = await fetch(
-      "http://localhost:3001/players/neighbors/" + id,
+      process.env.BE_URL + "/players/neighbors/" + id,
       {
         method: "GET",
       }

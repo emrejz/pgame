@@ -18,6 +18,9 @@ import { ConfigModule } from '@nestjs/config';
       database: process.env.sql_database,
       entities: [Player],
       synchronize: false,
+      ssl: {
+        rejectUnauthorized: false,
+      },
     }),
     RedisModule,
     SchedulerModule,
